@@ -2,14 +2,14 @@
     vue开发的 仿饿了么 H5端项目(未完成)
 
 # 技术栈
-  1.vue全家桶(vue 2.x、vue-cli 3.x、vue-router 、Vuex)
-  2.Element UI组件库，Vant组件库，Swiper轮播图
-  3.百度地图API
-  4.Css,以及预处理器SASS
-  5.axios
-  6.flex
-  7.ES6/7
-  8.webpack
+  1.vue全家桶(vue 2.x、vue-cli 3.x、vue-router 、Vuex) <br>
+  2.Element UI组件库，Vant组件库，Swiper轮播图 <br>
+  3.百度地图API <br/>
+  4.Css,以及预处理器SASS <br>
+  5.axios <br>
+  6.flex <br>
+  7.ES6/7 <br>
+  8.webpack <br>
 
 项目运行：
    npm run serve
