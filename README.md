@@ -1,24 +1,101 @@
-# elm_project
+# 概述
+    vue开发的 仿饿了么 H5端项目(未完成)
 
-## Project setup
-```
-yarn install
-```
+# 技术栈
+  1.vue全家桶(vue 2.x、vue-cli 3.x、vue-router 、Vuex)
+  2.Element UI组件库，Vant组件库，Swiper轮播图
+  3.百度地图API
+  4.Css,以及预处理器SASS
+  5.axios
+  6.flex
+  7.ES6/7
+  8.webpack
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+项目运行：
+   npm run serve
+   项目中用到的接口都不是本地接口，所以运行就可以打开
+# 各个组件介绍
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## NavBar
+头部组件，会进行多次使用，该组件接受一个参数，参数值必须是背景色的字符串值。
 
-### Lints and fixes files
-```
-yarn lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# 使用插件介绍
+
+## 1.路由懒加载 
+使用插件@babel/plugin-syntax-dynamic-import ，并在babel.config.js中进行配置
+
+## 2.ui框架
+使用的ui框架是element ui 框架，为了使得打包之后的体积更小，我们使用外部链接CDN的方式引入css，js表
+还引入了vant ui框架，使用的方式是CDN方式 
+这里是手动的添加的CDN，在正式的生产中，CDN可以通过webpack的配置来实现公司的CDN服务器
+引入swiper插件，使用的方式本地下载依赖
+
+## 3.loading加载
+使用第三方的插件npogress，在发起网络请求的时候会有进度条的加载 nprogress
+
+# 配置文件
+
+## config/rem.js 
+这个用来适配屏幕，我们项目中我们以375px作为初始大小，1rem=15px
+
+## 路由懒加载文件配置  babel.config.js
+
+
+
+# 遇到的问题
+## 1.项目刚开始就想着使用cdn的方式引入插件，比如element ui框架，但是在引入的时候出现了问题，报错未注册组件
+原因：当使用cdn的方式引入插件时，必须得同时引入Vue的cdn，并且需要在vue.config.js中的externals下进行配置。使用externals进行配置的目的是在main.js中引入的相关模块就不会打包至js文件中，而是会去找html中找我们使用的script引入的文件。
+
+## 2.在全局中引入scss文件，在同引入css一样在mian.js中引入scss，发生错误
+解决方法：安装了node-sass，sass-loader,sass-resources-loader依赖包，接着在vueconfig中进行了配置，这里需要注意的是，配置项中的resources路径只能是./src开头，否则会报错(猜想这里的路径是相对于打包时的根路径)
+
+## 3.当从city页面跳转到home页面时，需要将用户搜索选中的地址传给home组件并渲染
+跳转到home页面的路径有很多，所以这里添加了一个组件路由守卫，beforeRouteEnter
+这里刚开始我通过push的方式，并且将要传递的参数放在query中，但是使用该路由的问题及就是：导航还未完成就会调用该路由守卫，所以此时是获取不到新的query值。
+解决办法：将用户选中的值存放在会话存储单元sessionStorage中，这样就可以在beforeRouter获取到内容。
+
+补充：在使用路由守卫的时候，犹豫了很久，到底是使用全局路由守卫，独享路由守卫，还是组件路由守卫，显然这里使用全局路由守卫是不合适的。如果使用独享路由守卫，这里需要在router/index.js进行配置，然而最后我们需要更新home中的某个元素节点的值，所以在独享路由守卫中似乎是获取不到的(并不确定)，于是最后选择了组件路由守卫。
+
+## 4.当City页面离开后，再返回时输入框和下拉框中还都存在内容
+解决方式1：因为路由进行了keep-alive所以使用destroy是不合适的，于是使用了deactived，在页面离开的时候将输入框的内容清空，下拉框中的数据清空。
+解决方法2：但是想了想，当点击提示项(下拉框中的)某一项时会进行跳转，所以直接在触发点击事件的方法中将输入框的内容清空，下拉框中渲染的总数据赋值为空数组，很好的解决了。
+
+## 5.changeCity页面需要做一个锚点索引，所以用到了vant组件
+问题：同样是使用cdn的方式引入的组件，刚开始使用bootCDN引入时无法使用,后来改用了官方提供的cdn从而可用。
+方式：在index.html中引入了cdn(切记放在vue下面)
+
+
+## 6.数据渲染的时候，接口所给的数据并不是按字符顺序ABCDEFG所给的
+先将返回的数据进行了按序排列，然后将之渲染在了页面上。
+
+## 7.在city页面中输入关键词出现下拉框时点击下拉框中的选项，此时出现了文本框失焦事件和点击事件的冲突
+目标：给输入框添加了失焦事件，我们希望下拉框隐藏。并且下普拉筐中的每个选项都设置了点击事件，点击选项时我们希望选中选项。但这时候出现的问题是，因为失焦事件导致选项无法选中。
+原因：因为失焦事件的优先级高于点击事件，所以同时触发时无法出发后者。
+解决方法1.可以给失焦事件的加一个延时器，这样下拉框就不会立马消失，从而可以触发点击事件。
+解决方法2.将点击事件改成mousedown事件，因为mousedown的优先级高于失焦事件，所以很好的完成了此功能。
+
+## 8.在AddLocation页面中，首先要获取当前位置的经纬度才能地图显示
+出现问题：获取当前位置的时长太长，导致在地图渲染时并未获取到经纬度的值，从未无法正确渲染。
+问题解决：给地图渲染的函数添加一个延时器，延长渲染的时间。
+
+## 9.使用轮播图插件swiper时出现的问题
+1.默认显示 最后一个slide
+解决方法：在swiper插件渲染之前判断数据是否传递完毕，这时候可以通过使用v-if来判断数据是否传递完成
+2.给轮播图中的元素绑定点击事件
+问题：当使用轮播图的loop事件时，会导致通过自动添加的slide无法绑定到点击事件
+解决：官方给出的解决方法是在swiper上进行事件捕获，给父元素绑定点击事件，然后通过索引的方式找到对应的slide。但是我们这个业务中，每个slide不只是一个图片而是多个item,这时候不能使用推荐的解决方法来处理这个问题。所以我最后去掉了使用swiper-item来包装每一个item,而是直接将item放在router-link只需要实现该业务就行。
+## 10.在组件shopListItem中，这里使用了弹性盒模型，文字无法通过text-overflow进行隐藏
+解决方法:给父元素个盒子设置属性min-width:0;
+
+## 11.关于组件的渲染和数据的获取顺序
+在home页面中，需要获取到当前位置的经纬度然后才能渲染showList组件，当时现在的问题是数据还未获取到就进行了组件渲染，导致无法将数据全部渲染到页面中
+解决方法：在组件添加v-if属性，判断数据是否获取完整，v-if值为true时开始渲染。
+
+## 12.在项目中引用element-ui时让el-input获取焦点的方法
+在searchFood组件中使用到了element-ui组件中的el-input，需求是当从外部点击进入该页面时，输入框处于自动聚焦的状态。
+问题:只有在页面第一次进入的时候才会进行自动聚焦，之后在进入则不会。
+解决：给el-input添加一个ref属性，在钩子函数activated()中执行this.$refs.name.$el.querySelector("input").focus()方法，当进入该页面后自动获取焦点。
+
+## 13.在项目中导入图片无法使用绝对路径引入且当通过函数的方式获取其路径时无法获取正确的路径
+解决：图片的导入需要使用require的方式引入，具体common/utils/getImgPath

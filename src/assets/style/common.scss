@@ -1,0 +1,156 @@
+body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4,h5, h6, i, b, textarea, button, input, select, figure, figcaption{
+  padding: 0;
+  margin: 0;
+  list-style: 0;
+  font-style: none;
+  text-decoration: none;
+  border: none;
+  box-sizing: border-box;
+  font-weight: normal;
+  font-family: "Microsoft Yahei";
+  &:hover{
+    outline: none;
+  }
+}
+body{
+  background: #ffff;
+}
+
+.icon, .iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+//索引栏样式
+//右侧索引样式
+.van-index-bar__index{
+  padding: 6px 8px 0 9px;
+  color: #585858;  
+  font-size: 12px;
+  transform: scale(0.8);
+}
+.van-index-bar__index--active{
+  color: $fc;
+}
+.van-index-bar__sidebar{
+  top: 55%;
+}
+//左侧样式
+//选中时的颜色
+.van-index-anchor--sticky{
+  color: $fc !important;
+}
+//未选时
+.van-index-anchor{
+  color: grey;
+  padding-left: 0;
+}
+//文本区
+.van-cell{
+  color: grey;
+}
+//去掉百度地图的logo
+.BMap_cpyCtrl{
+  display:none;
+}
+.anchorBL{
+  display:none;
+}
+.BMap_scaleCtrl {
+  display: block;
+}
+.BMapLabel{
+  background: transparent !important;
+  border: 0 !important;
+  font-size: 2rem !important;
+  color: $fc;
+  // @include fsc(2rem,red)
+}
+//表单全部样式
+.el-form-item__label{
+  font-size: 12px;
+  font-weight: 700;
+   &::before{
+     content:'' 
+   }
+ }
+ .el-form-item.is-error .el-input__inner, .el-form-item.is-error .el-input__inner:focus, .el-form-item.is-error .el-textarea__inner, .el-form-item.is-error .el-textarea__inner:focus, .el-message-box__input input.invalid, .el-message-box__input input.invalid:focus{
+  //  border-color: #ccc;
+ }
+ .el-form-item.is-required:not(.is-no-asterisk) .el-form-item__label-wrap>.el-form-item__label:before, .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
+   content:'',
+ }
+ //弹框的样式的设置
+ .el-popover{
+   width: 15rem  !important;
+  background: #222;
+  left: 5rem !important;
+  color: #fff;
+  border-radius: 20px;
+  p{
+    width: 6rem;
+  }
+}
+.el-popper[x-placement^=top] .popper__arrow::after{
+  border-top-color: #222;
+}
+.useButton{
+  padding: 10px 15px !important;
+  border-radius: 20px;
+
+}
+.popover{
+  @include fj(space-around);
+  
+  .el-button:focus, .el-button:hover{
+    background-color: #fff;
+  }
+}
+#search{
+  .el-input__inner{
+    border: 2px solid $nav_bar;
+    border-radius: 20px;
+  }
+}
+.food_center{
+  .el-input__inner{
+    height: 32px;
+    line-height: 32px;
+    border-radius: 16px;
+    border:2px solid $nav_bar;
+
+    &::placeholder{
+      color:$fc;
+    }
+  }
+  .el-input__prefix, .el-input__suffix{
+    color: $fc;
+    i{
+      font-weight: 700;
+    }
+  }
+}
+
+.search_center{
+  .el-input__inner{
+    height: 36px;
+    line-height: 36px;
+    border-radius: 20px;
+    border: 2px solid $nav_bar;
+  }
+}
+.tabs{
+  .el-tabs__nav{
+    left: 50%;
+    transform: translateX(-50%) !important;
+
+  .el-tabs__item{
+    padding: 0 20vw;
+    font-size: 16px;
+  }
+  }
+}
+

@@ -1,0 +1,48 @@
+$blue:#3190e8;
+$bc:#E6E6E6;
+$fc:#10B8F9;
+$nav_bar:#00BFFF;
+
+//flex布局和子元素对齐方式
+@mixin fj($type,$direction:row){
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $type;
+}
+
+//设置宽度和高度
+@mixin wh($width,$height){
+  width: $width;
+  height: $height;
+}
+//定位全屏
+@mixin allcover{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+//定位上下左右居中
+@mixin center{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+//定位上下居中
+@mixin sxc{
+  position: absoulte;
+  top: 50%;
+  transform: translate(-50%);
+}
+//定位左右居中
+@mixin zyc{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+//字体大小，颜色,加粗
+@mixin fsc($size,$color){
+  font-size: $size;
+  color: $color;
+}
